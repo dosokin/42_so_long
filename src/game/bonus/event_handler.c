@@ -1,28 +1,21 @@
 #include "libft.h"
 #include "error.h"
-#include "solong.h"
+#include "solong_bonus.h"
 
-static void check_for_special_event(t_game_data *game_data, char target_element, struct s_coord coord)
+static void collect_collectibles(t_game_data *game_data, struct s_coord coord)
 {
     static bool first = true;
-    if (target_element == 'C')
+
+    game_data->map[coord.y][coord.x] = '0';
+    render_element(game_data->mlx_data, '0', coord.x, coord.y);
+    if (first)
     {
-        game_data->map[coord.y][coord.x] = '0';
-        render_element(game_data->mlx_data, '0', coord.x, coord.y);
-        if (first)
-        {
-            game_data->mlx_data.player_img->instances->z += 2;
-            first = false;
-        }
-        else
-            game_data->mlx_data.player_img->instances->z++;
-        game_data->game_logic.remaining_collectibles--;
+        game_data->mlx_data.images.player_img->instances->z += 2;
+        first = false;
     }
-    else if (target_element == 'E' && !game_data->game_logic.remaining_collectibles)
-    {
-        game_data->game_logic.success = true;
-        mlx_close_window(game_data->mlx_data.mlx);
-    }
+    else
+        game_data->mlx_data.images.player_img->instances->z++;
+    game_data->game_logic.remaining_collectibles--;
 }
 
 static void vertical_move(t_game_data *game_data, int radix, enum e_key_status *key, int *move_count)
@@ -37,9 +30,13 @@ static void vertical_move(t_game_data *game_data, int radix, enum e_key_status *
     (*move_count)++;
     *key = PRESSED;
     coord->y += radix;
-    game_data->mlx_data.player_img->instances->y += (64 * radix);
+    game_data->mlx_data.images.player_img->instances->y += (64 * radix);
     display_move_count(*move_count);
-    check_for_special_event(game_data, target_element, *coord);
+    update_counter(game_data, *move_count);
+    if (target_element == 'C')
+        collect_collectibles(game_data, *coord);
+    else if (target_element == 'E')
+        check_win_case(game_data);
 }
 
 static void horizontal_move(t_game_data *game_data, int radix, enum e_key_status *key, int *move_count)
@@ -54,9 +51,13 @@ static void horizontal_move(t_game_data *game_data, int radix, enum e_key_status
     (*move_count)++;
     *key = PRESSED;
     coord->x += radix;
-    game_data->mlx_data.player_img->instances->x += (64 * radix);
+    game_data->mlx_data.images.player_img->instances->x += (64 * radix);
     display_move_count(*move_count);
-    check_for_special_event(game_data, target_element, *coord);
+    update_counter(game_data, *move_count);
+    if (target_element == 'C')
+        collect_collectibles(game_data, *coord);
+    else if (target_element == 'E')
+        check_win_case(game_data);
 }
 
 void	key_press(void *p)

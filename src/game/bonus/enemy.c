@@ -25,9 +25,8 @@ static int	ft_rand(void)
 static struct s_coord	get_enemy_coord(char **map)
 {
 	size_t			empties_count;
-	struct s_coord	enemy_coord;
+	struct s_coord	enemy_coord = {0};
 
-	enemy_coord = {0};
 	empties_count = count_elements(map).empties;
 	if (!empties_count)
 		return (enemy_coord);
@@ -40,26 +39,21 @@ int	render_enemy(char **map, t_game_data *game_data)
 	struct s_coord		enemy_coord;
 	struct s_mlx_data	*mlx_data;
 
-	mlx_data = &(game_data->mlx_data);
+    if (!map || !*map || !game_data)
+        return (error_manager(MEMORY));
+    mlx_data = &(game_data->mlx_data);
 	enemy_coord = get_enemy_coord(map);
-	mlx_data->enemy_img1 = mlx_texture_to_image(mlx_data->mlx,
-			mlx_data->textures.enemy_jump);
-	if (!mlx_data->enemy_img1)
-		return (error_manager(MLX));
-	mlx_data->enemy_img2 = mlx_texture_to_image(mlx_data->mlx,
-			mlx_data->textures.enemy_landing);
-	if (!mlx_data->enemy_img2)
-		return (error_manager(MLX));
-	mlx_data->enemy_img2->enabled = false;
-	if (mlx_image_to_window(mlx_data->mlx, mlx_data->enemy_img1, enemy_coord.x
+	mlx_data->images.enemy_img2->enabled = false;
+	if (mlx_image_to_window(mlx_data->mlx, mlx_data->images.enemy_img1, enemy_coord.x
 			* 64 + 20, enemy_coord.y * 64 + 20) < 0)
 		return (error_manager(MLX));
-	if (mlx_image_to_window(mlx_data->mlx, mlx_data->enemy_img2, enemy_coord.x
+	if (mlx_image_to_window(mlx_data->mlx, mlx_data->images.enemy_img2, enemy_coord.x
 			* 64 + 20, enemy_coord.y * 64 + 20) < 0)
 		return (error_manager(MLX));
 	game_data->game_logic.enemy = enemy_coord;
 	return (NO_ERRORS);
 }
+
 
 static void	enemy_movement(t_game_data *game_data, struct s_coord *coord,
 		int type)
@@ -84,16 +78,16 @@ static void	enemy_movement(t_game_data *game_data, struct s_coord *coord,
 		coord->y += 1;
 	else if (type == 3)
 		coord->y -= 1;
-	game_data->mlx_data.enemy_img1->instances->x = coord->x * 64 + 20;
-	game_data->mlx_data.enemy_img1->instances->y = coord->y * 64 + 20;
-	game_data->mlx_data.enemy_img2->instances->x = coord->x * 64 + 20;
-	game_data->mlx_data.enemy_img2->instances->y = coord->y * 64 + 20;
+	game_data->mlx_data.images.enemy_img1->instances->x = coord->x * 64 + 20;
+	game_data->mlx_data.images.enemy_img1->instances->y = coord->y * 64 + 20;
+	game_data->mlx_data.images.enemy_img2->instances->x = coord->x * 64 + 20;
+	game_data->mlx_data.images.enemy_img2->instances->y = coord->y * 64 + 20;
 }
 
 void	enemy_animation(void *p)
 {
 	t_game_data			*game_data;
-	struct s_mlx_data	*mlx_data;
+	struct s_game_images	*images;
 	static int			sprite = 0;
 	static int			move = 0;
 
@@ -102,10 +96,10 @@ void	enemy_animation(void *p)
 	move++;
 	if (sprite > 10)
 	{
-		mlx_data = &(game_data->mlx_data);
+		images = &(game_data->mlx_data.images);
 		sprite = 0;
-		mlx_data.enemy_img1->enabled = !mlx_data->enemy_img1->enabled;
-		mlx_data.enemy_img2->enabled = !mlx_data->enemy_img2->enabled;
+		images->enemy_img1->enabled = !images->enemy_img1->enabled;
+		images->enemy_img2->enabled = !images->enemy_img2->enabled;
 	}
 	if (move > 50)
 	{

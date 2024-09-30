@@ -1,6 +1,6 @@
 #include "error.h"
 #include "libft.h"
-#include "solong_bonus.h"
+#include "solong.h"
 
 static int     check_elements_count(const struct s_elements_count elements_c)
 {

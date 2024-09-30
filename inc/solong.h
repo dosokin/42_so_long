@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SOLONG_H
-# define SOLONG_H
+#ifndef YY_SOLONG_H
+# define YY_SOLONG_H
 # include "../src/MLX42/include/MLX42/MLX42.h"
 
 struct s_elements_count {
@@ -19,6 +19,7 @@ struct s_elements_count {
     size_t players;
     size_t exits;
     size_t others;
+    size_t empties;
 };
 
 struct s_mlx_textures{
@@ -29,10 +30,12 @@ struct s_mlx_textures{
     mlx_texture_t *exit;
 };
 
-struct s_mlx_data{
-    mlx_t                 *mlx;
-    mlx_image_t           *player_img;
-    struct s_mlx_textures textures;
+struct s_game_images{
+    mlx_image_t *wall;
+    mlx_image_t *empty;
+    mlx_image_t *collectible;
+    mlx_image_t *exit;
+    mlx_image_t *player_img;
 };
 
 struct s_coord{
@@ -43,6 +46,11 @@ struct s_coord{
 enum e_key_status{
     RELEASED,
     PRESSED,
+};
+
+enum e_game_status{
+    DEFAULT,
+    WIN,
 };
 
 struct s_keys_status{
@@ -56,7 +64,13 @@ struct s_game_logic{
     struct s_coord player;
     size_t remaining_collectibles;
     struct s_keys_status keys_status;
-    bool   success;
+    enum e_game_status  status;
+};
+
+struct s_mlx_data{
+    mlx_t                 *mlx;
+    struct s_mlx_textures textures;
+    struct s_game_images   images;
 };
 
 typedef struct s_game_data
@@ -65,6 +79,7 @@ typedef struct s_game_data
     struct s_game_logic game_logic;
     char                **map;
 } t_game_data;
+
 
 bool    check_file_extension(char *filename, char *expected_extension);
 char	*get_content(int fd);
@@ -85,13 +100,22 @@ int init_game(int fd, struct s_game_data *game_data);
 void	key_release(void *p);
 void	key_press(void *p);
 
-int visual_render(char **map, struct s_mlx_data *mlx_data);
+int visual_render(char **map, struct s_game_data *game_data);
 int render_element(struct s_mlx_data mlx_data, char element, size_t x, size_t y);
 void display_move_count(int move_count);
 
-void delete_textures(struct s_mlx_textures textures);
+void delete_textures(struct s_mlx_textures *textures);
+void delete_game_images(struct s_game_images *images, mlx_t *mlx);
 void clean_exit(struct s_game_data *game_data);
 
 char	        *get_next_line(int fd);
+
+void    check_win_case(t_game_data *game_data);
+
+int png_to_texture(mlx_texture_t **buffer, const char *path_to_png);
+const char *get_texture_path(size_t index);
+mlx_texture_t **get_texture_location(size_t index, struct s_mlx_textures *textures);
+mlx_image_t **get_image_location(size_t index, struct s_game_images *images);
+int texture_to_img(mlx_image_t **buffer, mlx_texture_t *texture, mlx_t *mlx);
 
 #endif

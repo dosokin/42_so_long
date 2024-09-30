@@ -1,9 +1,8 @@
 #include <stddef.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include "libft.h"
 #include "error.h"
-#include "solong.h"
+#include "solong_bonus.h"
 
 char **extract_map(char *brut_map)
 {
@@ -52,7 +51,9 @@ struct s_elements_count	count_elements(char **map)
                 elements.players++;
             else if (map[i][j] == 'E')
                 elements.exits++;
-            else if (map[i][j] != '1' && map[i][j] != '0')
+            else if (map[i][j] == '0')
+                elements.empties++;
+            else if (map[i][j] != '1')
                 elements.others++;
             j++;
         }
@@ -89,4 +90,3 @@ struct s_coord get_element_coord(char **map, char element, size_t index)
     }
     return (element_coord);
 }
-

@@ -2,28 +2,37 @@ CC = cc
 NAME = so_long
 NAME_BONUS = so_long_bonus
 SRC = src/main.c \
-	src/game/error.c \
 	src/game/array_utils.c \
-	src/game/pathfinding.c \
-	src/game/verify_map.c \
-	src/game/map_utils.c \
-	src/game/init_data.c \
-	src/game/exit.c \
+	src/game/clear_mlx.c \
+	src/game/end_of_game.c \
+	src/game/error.c \
 	src/game/event_handler.c \
-	src/game/visual_render.c \
+	src/game/exit.c \
+	src/game/init_data.c \
+	src/game/map_utils.c \
+	src/game/pathfinding.c \
+	src/game/textures_utils.c \
 	src/game/treat_file.c \
-	src/game/enemy.c
+	src/game/verify_map.c \
+	src/game/visual_render.c
+
 SRC_BONUS = src/main_bonus.c \
-			src/game/bonus/error.c \
 			src/game/bonus/array_utils.c \
-			src/game/bonus/pathfinding.c \
-			src/game/bonus/verify_map.c \
-			src/game/bonus/map_utils.c \
-			src/game/bonus/init_data.c \
-			src/game/bonus/exit.c \
+			src/game/bonus/clear_mlx.c \
+			src/game/bonus/counter.c \
+			src/game/bonus/end_of_game.c \
+			src/game/bonus/enemy.c \
+			src/game/bonus/error.c \
 			src/game/bonus/event_handler.c \
-			src/game/bonus/visual_render.c \
-			src/game/bonus/treat_file.c
+			src/game/bonus/exit.c \
+			src/game/bonus/init_data.c \
+			src/game/bonus/map_utils.c \
+			src/game/bonus/pathfinding.c \
+			src/game/bonus/textures_utils.c \
+			src/game/bonus/treat_file.c \
+			src/game/bonus/verify_map.c \
+			src/game/bonus/visual_render.c
+
 HEADER = inc/error.h inc/utils.h
 OBJ = $(SRC:.c=.o)
 OBJ_BONUS = $(SRC_BONUS:.c=.o)

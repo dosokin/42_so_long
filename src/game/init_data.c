@@ -1,6 +1,6 @@
 #include "libft.h"
 #include "error.h"
-#include "solong_bonus.h"
+#include "solong.h"
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -16,57 +16,32 @@ static struct s_game_logic init_game_logic(char **map)
     return (game_logic);
 }
 
-static int  init_number_textures(struct s_mlx_textures *textures)
+static int  init_game_textures(struct s_mlx_data *mlx_data)
 {
-    textures->number_0 = mlx_load_png("textures/bonus/numbers/0.png");
-    textures->number_1 = mlx_load_png("textures/bonus/numbers/1.png");
-    if (!textures->number_0 || !textures->number_1)
-        return (error_manager(TEXTURES));
-    textures->number_2 = mlx_load_png("textures/bonus/numbers/2.png");
-    textures->number_3 = mlx_load_png("textures/bonus/numbers/3.png");
-    if (!textures->number_2 || !textures->number_3)
-        return (error_manager(TEXTURES));
-    textures->number_4 = mlx_load_png("textures/bonus/numbers/4.png");
-    textures->number_5 = mlx_load_png("textures/bonus/numbers/5.png");
-    if (!textures->number_4 || !textures->number_5)
-        return (error_manager(TEXTURES));
-    textures->number_6 = mlx_load_png("textures/bonus/numbers/6.png");
-    textures->number_7 = mlx_load_png("textures/bonus/numbers/7.png");
-    if (!textures->number_6 || !textures->number_7)
-        return (error_manager(TEXTURES));
-    textures->number_8 = mlx_load_png("textures/bonus/numbers/8.png");
-    textures->number_9 = mlx_load_png("textures/bonus/numbers/9.png");
-    if (!textures->number_8 || !textures->number_9)
-        return (error_manager(TEXTURES));
+    size_t i;
+
+    i = 0;
+    while (i < 5)
+    {
+        if (png_to_texture(get_texture_location(i, &(mlx_data->textures)), get_texture_path(i)))
+            return (error_manager(TEXTURES));
+        i++;
+    }
     return (NO_ERRORS);
 }
 
-static int  init_mlx_data(struct s_mlx_data *mlx_data, char **map)
+static int  init_game_images(struct s_mlx_data *mlx_data)
 {
-    mlx_data->textures.exit = mlx_load_png("textures/manda/exit.png");
-    if (!mlx_data->textures.exit)
-        return (error_manager(TEXTURES));
-    mlx_data->textures.wall = mlx_load_png("textures/manda/wall.png");
-    if (!mlx_data->textures.wall)
-        return (error_manager(TEXTURES));
-    mlx_data->textures.player = mlx_load_png("textures/manda/player.png");
-    if (!mlx_data->textures.player)
-        return (error_manager(TEXTURES));
-    mlx_data->textures.empty = mlx_load_png("textures/manda/empty.png");
-    if (!mlx_data->textures.empty)
-        return (error_manager(TEXTURES));
-    mlx_data->textures.collectible = mlx_load_png("textures/manda/collectible.png");
-    if (!mlx_data->textures.collectible)
-        return (error_manager(TEXTURES));
-    mlx_data->textures.enemy_jump = mlx_load_png("textures/bonus/jump.png");
-    if (!mlx_data->textures.enemy_jump)
-        return (error_manager(TEXTURES));
-    mlx_data->textures.enemy_landing = mlx_load_png("textures/bonus/landing.png");
-    if (!mlx_data->textures.enemy_landing)
-        return (error_manager(TEXTURES));
-    mlx_data->mlx = mlx_init(64 * ft_strlen(map[0]),64 * count_array(map), "BEAVERLAND_BONUS", true);
-    if (!mlx_data->mlx)
-        return (error_manager(MLX));
+    size_t i;
+
+    i = 0;
+    while (i < 5)
+    {
+        if (texture_to_img(get_image_location(i, &(mlx_data->images)), *get_texture_location(i, &(mlx_data->textures)), mlx_data->mlx))
+            return (error_manager(TEXTURES));
+        i++;
+    }
+    delete_textures(&(mlx_data->textures));
     return (NO_ERRORS);
 }
 
@@ -92,7 +67,6 @@ static char **init_map(int fd)
     return (map);
 }
 
-
 int init_game(int fd, t_game_data *game_data)
 {
     if (!game_data)
@@ -103,9 +77,14 @@ int init_game(int fd, t_game_data *game_data)
     if (check_map_validity(game_data->map))
         return (1);
     game_data->game_logic = init_game_logic(game_data->map);
-    if (init_mlx_data(&(game_data->mlx_data), game_data->map))
+    if (init_game_textures(&(game_data->mlx_data)))
         return (1);
-    if (init_number_textures(&(game_data->mlx_data.textures)))
+    int width = 64 * ft_strlen(game_data->map[0]);
+    int height = 64 * count_array(game_data->map);
+    game_data->mlx_data.mlx = mlx_init(width, height, "BEAVERLAND", true);
+    if (!game_data->mlx_data.mlx)
+        return (1);
+    if (init_game_images(&(game_data->mlx_data)))
         return (1);
     if (visual_render(game_data->map, game_data))
         return (1);

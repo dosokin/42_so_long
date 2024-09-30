@@ -1,6 +1,6 @@
 #include "stdbool.h"
 #include "error.h"
-#include "solong_bonus.h"
+#include "solong.h"
 
 static bool is_one_of(char c, const char *to_find)
 {

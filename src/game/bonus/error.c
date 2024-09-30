@@ -1,7 +1,6 @@
 #include "error.h"
 #include "libft.h"
 #include <unistd.h>
-#include <stdbool.h>
 
 int    error_manager(enum e_errors e)
 {

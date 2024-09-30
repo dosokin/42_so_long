@@ -1,7 +1,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include "libft.h"
-#include "solong_bonus.h"
+#include "solong.h"
 
 bool    check_file_extension(char *filename, char *expected_extension)
 {

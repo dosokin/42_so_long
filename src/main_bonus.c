@@ -9,7 +9,7 @@
 /*   Updated: 2024/01/16 10:17:10 by dosokin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "solong.h"
+#include "solong_bonus.h"
 #include <error.h>
 #include <stdlib.h>
 #include <fcntl.h>
@@ -18,6 +18,8 @@ void game_loop(struct s_game_data *game_data)
 {
     mlx_loop_hook(game_data->mlx_data.mlx, key_press, game_data);
     mlx_loop_hook(game_data->mlx_data.mlx, key_release, game_data);
+    mlx_loop_hook(game_data->mlx_data.mlx, enemy_animation, game_data);
+    mlx_loop_hook(game_data->mlx_data.mlx, check_death_case, game_data);
     mlx_loop(game_data->mlx_data.mlx);
 }
 

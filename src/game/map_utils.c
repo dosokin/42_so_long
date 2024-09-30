@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "libft.h"
 #include "error.h"
-#include "solong_bonus.h"
+#include "solong.h"
 
 char **extract_map(char *brut_map)
 {

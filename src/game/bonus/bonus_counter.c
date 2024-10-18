@@ -87,7 +87,7 @@ void	update_counter(struct s_game_data *game_data, size_t move_count)
 	struct s_num_images	*num_images;
 	mlx_image_t			*image;
 
-	if (!game_data || move_count > 1000)
+	if (!game_data || move_count > 9999)
 		return ;
 	disable_counter(game_data);
 	len_n = get_len_n(move_count);

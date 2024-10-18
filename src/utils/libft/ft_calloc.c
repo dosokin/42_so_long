@@ -6,25 +6,25 @@
 /*   By: dosokin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 11:23:14 by dosokin           #+#    #+#             */
-/*   Updated: 2023/11/04 20:57:39 by dosokin          ###   ########.fr       */
+/*   Updated: 2024/10/16 08:08:39 by dosokin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdlib.h>
 
 static void	ft_bzero(void *s, size_t n)
 {
-    unsigned char	*p;
-    size_t			i;
+	unsigned char	*p;
+	size_t			i;
 
-    if (!s)
-        return;
-    p = s;
-    i = 0;
-    while (i < n)
-    {
-        p[i] = 0;
-        i++;
-    }
+	if (!s)
+		return ;
+	p = s;
+	i = 0;
+	while (i < n)
+	{
+		p[i] = 0;
+		i++;
+	}
 }
 
 void	*ft_calloc(size_t nmemb, size_t size)

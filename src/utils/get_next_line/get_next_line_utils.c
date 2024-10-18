@@ -6,13 +6,13 @@
 /*   By: dosokin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 20:59:56 by dosokin           #+#    #+#             */
-/*   Updated: 2024/08/03 18:22:13 by dosokin          ###   ########.fr       */
+/*   Updated: 2024/10/16 08:08:07 by dosokin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../libft/libft.h"
 #include <stddef.h>
 #include <stdlib.h>
-#include "../libft/libft.h"
 
 char	*ft_strjoin_special(char *a, char *b)
 {

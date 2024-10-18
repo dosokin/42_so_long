@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dosokin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/16 08:11:45 by dosokin           #+#    #+#             */
-/*   Updated: 2024/10/16 08:11:46 by dosokin          ###   ########.fr       */
+/*   Created: 2024/10/16 08:13:26 by dosokin           #+#    #+#             */
+/*   Updated: 2024/10/16 08:13:30 by dosokin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "error.h"
 #include "libft.h"
-#include "solong.h"
+#include "solong_bonus.h"
 
 static void	collect_collectibles(t_game_data *game_data, struct s_coord coord)
 {
@@ -45,6 +45,7 @@ static void	vertical_move(t_game_data *game_data, int radix,
 	coord->y += radix;
 	game_data->mlx_data.images.player_img->instances->y += (64 * radix);
 	display_move_count(*move_count);
+	update_counter(game_data, *move_count);
 	if (target_element == 'C')
 		collect_collectibles(game_data, *coord);
 	else if (target_element == 'E')
@@ -66,6 +67,7 @@ static void	horizontal_move(t_game_data *game_data, int radix,
 	coord->x += radix;
 	game_data->mlx_data.images.player_img->instances->x += (64 * radix);
 	display_move_count(*move_count);
+	update_counter(game_data, *move_count);
 	if (target_element == 'C')
 		collect_collectibles(game_data, *coord);
 	else if (target_element == 'E')

@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   8.c                                                :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dosokin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 11:23:14 by dosokin           #+#    #+#             */
-/*   Updated: 2023/12/15 19:46:15 by dosokin          ###   ########.fr       */
+/*   Updated: 2024/10/16 08:09:52 by dosokin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
 
-size_t ft_strlen(const char *s)
+size_t	ft_strlen(const char *s)
 {
-    size_t i;
+	size_t	i;
 
-    if (!s)
-        return (-1);
-    i = 0;
-    while (s[i])
-        i++;
-    return (i);
+	if (!s)
+		return (-1);
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
 }

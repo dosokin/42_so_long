@@ -14,39 +14,50 @@ SRC = src/main.c \
 	src/game/textures_utils.c \
 	src/game/treat_file.c \
 	src/game/verify_map.c \
-	src/game/visual_render.c
+	src/game/struct_init.c \
+	src/game/visual_render.c \
+	src/game/game_data_init.c
 
 SRC_BONUS = src/main_bonus.c \
-			src/game/bonus/array_utils.c \
-			src/game/bonus/clear_mlx.c \
-			src/game/bonus/counter.c \
-			src/game/bonus/end_of_game.c \
-			src/game/bonus/enemy.c \
-			src/game/bonus/error.c \
-			src/game/bonus/event_handler.c \
-			src/game/bonus/exit.c \
-			src/game/bonus/init_data.c \
-			src/game/bonus/map_utils.c \
-			src/game/bonus/pathfinding.c \
-			src/game/bonus/textures_utils.c \
-			src/game/bonus/treat_file.c \
-			src/game/bonus/verify_map.c \
-			src/game/bonus/visual_render.c
-
+			src/game/array_utils.c \
+			src/game/error.c \
+			src/game/map_utils.c \
+            src/game/pathfinding.c \
+            src/game/verify_map.c \
+            src/game/struct_init.c \
+			src/game/bonus/bonus_clear_mlx.c \
+			src/game/bonus/bonus_counter.c \
+			src/game/bonus/bonus_end_of_game.c \
+			src/game/bonus/bonus_enemy.c \
+			src/game/bonus/bonus_event_handler.c \
+			src/game/bonus/bonus_exit.c \
+			src/game/bonus/bonus_init_data.c \
+			src/game/bonus/bonus_textures_utils.c \
+			src/game/bonus/bonus_img_utils.c \
+			src/game/treat_file.c \
+			src/game/bonus/bonus_visual_render.c \
+			src/game/bonus/bonus_game_data_struct_init.c
 HEADER = inc/error.h inc/utils.h
 OBJ = $(SRC:.c=.o)
 OBJ_BONUS = $(SRC_BONUS:.c=.o)
 CFLAGS = -Werror -Wextra -Wall -g -Iinc
 LIBS = src/utils/libft src/utils/get_next_line
-BUILT_LIBS = src/MLX42/build/libmlx42.a src/utils/libft/libft.a src/utils/get_next_line/get_next_line.a
+MLX_PATH = src/MLX42
+BUILT_LIBS = src/utils/libft/libft.a src/utils/get_next_line/get_next_line.a
 MLXFLAGS = -Iinclude -ldl -lX11 -lglfw -pthread -lm
+MLX = src/MLX42/build/libmlx42.a
 
-all : utils $(NAME)
+all : $(NAME)
 
-$(NAME) : $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(BUILT_LIBS) $(MLXFLAGS) -o $(NAME)
+$(NAME) : $(OBJ) $(MLX) $(BUILT_LIBS)
+	$(CC) $(CFLAGS) $(OBJ) $(BUILT_LIBS) $(MLX) $(MLXFLAGS) -o $(NAME)
 
-utils :
+$(MLX) :
+	cd $(MLX_PATH); \
+	cmake -B build; \
+	$(MAKE) -C build -j4
+
+$(BUILT_LIBS) :
 	for dir in $(LIBS); do \
 		$(MAKE) -C $$dir; \
 	done
@@ -59,21 +70,26 @@ clean :
 	rm -rf $(OBJ)
 	rm -rf $(OBJ_BONUS)
 	for dir in $(LIBS); do \
-		$(MAKE) -C $$dir clean; \
+		$(MAKE) clean -C $$dir; \
 	done
 
 fclean : clean
 	rm -rf $(NAME)
-	rm -rf $(BONUS)
+	rm -rf $(NAME_BONUS)
+
+	cd $(MLX_PATH); \
+    $(MAKE) clean -C build; \
+  	rm -rf build;
+
 	for dir in $(LIBS); do \
-		$(MAKE) -C $$dir fclean; \
+		$(MAKE) fclean -C $$dir; \
 	done
 
 re : fclean all
 
-bonus : fclean utils $(NAME_BONUS)
+bonus : $(NAME_BONUS)
 
-$(NAME_BONUS) : $(OBJ_BONUS)
-	$(CC) $(CFLAGS) $(OBJ_BONUS) $(BUILT_LIBS) $(MLXFLAGS) -o $(NAME_BONUS)
+$(NAME_BONUS) : $(OBJ_BONUS) $(MLX) $(BUILT_LIBS)
+	$(CC) $(CFLAGS) $(OBJ_BONUS) $(MLX) $(BUILT_LIBS) $(MLXFLAGS) -o $(NAME_BONUS)
 
 .PHONY: all fclean clean re bonus

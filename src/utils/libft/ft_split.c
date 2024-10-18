@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dosokin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 11:23:14 by dosokin           #+#    #+#             */
-/*   Updated: 2023/10/30 11:24:07 by dosokin          ###   ########.fr       */
+/*   Updated: 2024/10/16 08:08:47 by dosokin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <stdlib.h>
 #include "libft.h"
+#include <stdlib.h>
 
 static int	count_split(char const *s, char c)
 {
-	int		i;
-	int		count;
+	int	i;
+	int	count;
 
 	count = 0;
 	i = 0;
@@ -75,8 +75,8 @@ static char	**creation_of_char_star_star(char const *s, char c, char **r)
 	i = 0;
 	j = 0;
 	if (!r || !s)
-        return (NULL);
-    while (s[i])
+		return (NULL);
+	while (s[i])
 	{
 		k = 0;
 		while (s[i] && s[i] == c)
@@ -100,8 +100,8 @@ char	**ft_split(char const *s, char c)
 
 	if (!s)
 		return (NULL);
-    r = NULL;
-    r = ft_calloc((count_split(s, c) + 1), sizeof(char *));
+	r = NULL;
+	r = ft_calloc((count_split(s, c) + 1), sizeof(char *));
 	if (!r)
 		return (NULL);
 	r = creation_of_char_star_star(s, c, r);

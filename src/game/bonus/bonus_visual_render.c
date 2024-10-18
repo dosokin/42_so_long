@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dosokin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/16 08:11:32 by dosokin           #+#    #+#             */
-/*   Updated: 2024/10/16 08:11:34 by dosokin          ###   ########.fr       */
+/*   Created: 2024/10/16 08:13:44 by dosokin           #+#    #+#             */
+/*   Updated: 2024/10/16 12:08:12 by dosokin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "error.h"
 #include "libft.h"
-#include "solong.h"
+#include "solong_bonus.h"
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -80,6 +80,10 @@ int	visual_render(char **map, t_game_data *game_data)
 		}
 		i++;
 	}
+	if (render_enemy(map, game_data))
+		return (1);
+	if (render_counter(game_data))
+		return (1);
 	if (render_player(map, &(game_data->mlx_data)))
 		return (1);
 	return (0);

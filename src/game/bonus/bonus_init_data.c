@@ -5,65 +5,74 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dosokin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/16 08:11:18 by dosokin           #+#    #+#             */
-/*   Updated: 2024/10/16 15:10:04 by dosokin          ###   ########.fr       */
+/*   Created: 2024/10/16 08:12:38 by dosokin           #+#    #+#             */
+/*   Updated: 2024/10/16 12:07:56 by dosokin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "error.h"
 #include "libft.h"
-#include "solong.h"
+#include "solong_bonus.h"
 #include <stdlib.h>
 #include <unistd.h>
 
-static struct s_game_logic	init_game_logic(char **map)
+static struct s_game_logic init_game_logic(char **map)
 {
-	struct s_game_logic	game_logic;
+    struct s_game_logic game_logic;
 
-	game_logic = game_logic_null_init();
+    game_logic = game_logic_null_init();
 	if (!map || !*map)
 		return (game_logic);
 	game_logic.player = get_element_coord(map, 'P', 1);
+    game_logic.enemy = coord_null_init();
 	game_logic.remaining_collectibles = count_elements(map).collectibles;
     game_logic.keys_status = key_status_null_init();
     game_logic.status = DEFAULT;
-	return (game_logic);
+    return (game_logic);
 }
 
 static int	init_game_textures(struct s_mlx_data *mlx_data)
 {
-	if (png_to_texture(&mlx_data->textures.exit, get_texture_path(EXIT)))
-		return (error_manager(TEXTURES));
-	if (png_to_texture(&mlx_data->textures.wall, get_texture_path(WALL)))
-		return (error_manager(TEXTURES));
-	if (png_to_texture(&mlx_data->textures.empty, get_texture_path(EMPTY)))
-		return (error_manager(TEXTURES));
-	if (png_to_texture(&mlx_data->textures.collectible,
-			get_texture_path(COLLECTIBLE)))
-		return (error_manager(TEXTURES));
-	if (png_to_texture(&mlx_data->textures.player, get_texture_path(PLAYER)))
-		return (error_manager(TEXTURES));
+	size_t	i;
+
+	i = 0;
+	while (i < 7)
+	{
+		if (png_to_texture(get_game_texture_location(i, &(mlx_data->textures)),
+				get_texture_path(i)))
+			return (error_manager(TEXTURES));
+		i++;
+	}
+    i = 0;
+    while (i < 10)
+    {
+        if (png_to_texture(get_num_texture_location(i, &(mlx_data->textures)),
+                           get_texture_path(i + 7)))
+            return (error_manager(TEXTURES));
+        i++;
+    }
 	return (NO_ERRORS);
 }
 
 static int	init_game_images(struct s_mlx_data *mlx_data)
 {
-	struct s_mlx_textures	*textures;
-	struct s_game_images	*images;
+	size_t	i;
 
-	textures = &mlx_data->textures;
-	images = &mlx_data->images;
-	if (texture_to_img(&images->exit, textures->exit, mlx_data->mlx))
-		return (error_manager(TEXTURES));
-	if (texture_to_img(&images->player_img, textures->player, mlx_data->mlx))
-		return (error_manager(TEXTURES));
-	if (texture_to_img(&images->collectible, textures->collectible,
-			mlx_data->mlx))
-		return (error_manager(TEXTURES));
-	if (texture_to_img(&images->empty, textures->empty, mlx_data->mlx))
-		return (error_manager(TEXTURES));
-	if (texture_to_img(&images->wall, textures->wall, mlx_data->mlx))
-		return (error_manager(TEXTURES));
+	i = 0;
+	while (i < 7)
+	{
+		if (texture_to_img(get_game_image_location(i, &(mlx_data->images)),
+				*get_game_texture_location(i, &(mlx_data->textures)), mlx_data->mlx))
+			return (error_manager(TEXTURES));
+		i++;
+	}
+	i = 0;
+	while (i < 4)
+	{
+		if (load_num_images(&(mlx_data->counter[i]), mlx_data))
+			return (error_manager(TEXTURES));
+		i++;
+	}
 	delete_textures(&(mlx_data->textures));
 	return (NO_ERRORS);
 }
@@ -92,9 +101,6 @@ static char	**init_map(int fd)
 
 int	init_game(int fd, t_game_data *game_data)
 {
-	int	width;
-	int	height;
-
 	if (!game_data)
 		return (1);
 	game_data->map = init_map(fd);
@@ -105,9 +111,8 @@ int	init_game(int fd, t_game_data *game_data)
 	game_data->game_logic = init_game_logic(game_data->map);
 	if (init_game_textures(&(game_data->mlx_data)))
 		return (1);
-	width = 64 * ft_strlen(game_data->map[0]);
-	height = 64 * count_array(game_data->map);
-	game_data->mlx_data.mlx = mlx_init(width, height, "BEAVERLAND", true);
+	game_data->mlx_data.mlx = mlx_init(64 * ft_strlen(game_data->map[0]), 64
+			* count_array(game_data->map), "BEAVERLAND_BONUS", true);
 	if (!game_data->mlx_data.mlx)
 		return (1);
 	if (init_game_images(&(game_data->mlx_data)))

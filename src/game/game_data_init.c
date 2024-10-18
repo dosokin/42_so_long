@@ -6,7 +6,7 @@
 /*   By: dosokin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 15:06:04 by dosokin           #+#    #+#             */
-/*   Updated: 2024/10/16 15:06:06 by dosokin          ###   ########.fr       */
+/*   Updated: 2024/10/18 14:33:30 by dosokin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 struct s_game_images	game_images_null_init(void)
 {
-    struct s_game_images	game_images;
+	struct s_game_images	game_images;
 
-    game_images.collectible = NULL;
-    game_images.exit = NULL;
-    game_images.empty = NULL;
-    game_images.wall = NULL;
-    game_images.player_img = NULL;
-    return (game_images);
+	game_images.collectible = NULL;
+	game_images.exit = NULL;
+	game_images.empty = NULL;
+	game_images.wall = NULL;
+	game_images.player_img = NULL;
+	return (game_images);
 }
 
 struct s_mlx_data	mlx_data_null_init(void)
@@ -46,13 +46,12 @@ t_game_data	game_data_null_init(void)
 
 struct s_mlx_textures	game_textures_null_init(void)
 {
-    struct s_mlx_textures	game_textures;
+	struct s_mlx_textures	game_textures;
 
-    game_textures.player = NULL;
-    game_textures.wall = NULL;
-    game_textures.empty = NULL;
-    game_textures.exit = NULL;
-    game_textures.collectible = NULL;
-    return (game_textures);
+	game_textures.player = NULL;
+	game_textures.wall = NULL;
+	game_textures.empty = NULL;
+	game_textures.exit = NULL;
+	game_textures.collectible = NULL;
+	return (game_textures);
 }
-

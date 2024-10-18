@@ -6,7 +6,7 @@
 /*   By: dosokin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 08:11:18 by dosokin           #+#    #+#             */
-/*   Updated: 2024/10/16 15:10:04 by dosokin          ###   ########.fr       */
+/*   Updated: 2024/10/18 14:33:16 by dosokin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ static struct s_game_logic	init_game_logic(char **map)
 		return (game_logic);
 	game_logic.player = get_element_coord(map, 'P', 1);
 	game_logic.remaining_collectibles = count_elements(map).collectibles;
-    game_logic.keys_status = key_status_null_init();
-    game_logic.status = DEFAULT;
+	game_logic.keys_status = key_status_null_init();
+	game_logic.status = DEFAULT;
 	return (game_logic);
 }
 

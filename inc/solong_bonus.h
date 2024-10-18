@@ -6,7 +6,7 @@
 /*   By: dosokin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 16:59:16 by dosokin           #+#    #+#             */
-/*   Updated: 2024/10/16 12:19:45 by dosokin          ###   ########.fr       */
+/*   Updated: 2024/10/18 14:32:05 by dosokin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,23 +165,26 @@ void						check_death_case(void *p);
 int							png_to_texture(mlx_texture_t **buffer,
 								const char *path_to_png);
 const char					*get_texture_path(size_t index);
-mlx_texture_t	**get_game_texture_location(size_t index,
-                                             struct s_mlx_textures *textures);
+mlx_texture_t				**get_game_texture_location(size_t index,
+								struct s_mlx_textures *textures);
 mlx_image_t					**get_game_image_location(size_t index,
 								struct s_game_images *images);
 mlx_image_t					**get_num_image_location(size_t index,
 								struct s_num_images *images);
 int							texture_to_img(mlx_image_t **buffer,
 								mlx_texture_t *texture, mlx_t *mlx);
-int	load_num_images(struct s_num_images *counter_digit, struct s_mlx_data *mlx_data);
+int							load_num_images(struct s_num_images *counter_digit,
+								struct s_mlx_data *mlx_data);
 
 void						update_counter(struct s_game_data *game_data,
 								size_t move_count);
 
-t_game_data	game_data_null_init(void);
-struct s_coord	coord_null_init(void);
-struct s_game_logic	game_logic_null_init(void);
-mlx_texture_t	**get_num_texture_location(size_t index,
-                                            struct s_mlx_textures *textures);
-struct s_keys_status key_status_null_init(void);
+t_game_data					game_data_null_init(void);
+struct s_coord				coord_null_init(void);
+struct s_game_logic			game_logic_null_init(void);
+mlx_texture_t				**get_num_texture_location(size_t index,
+								struct s_mlx_textures *textures);
+struct s_keys_status		key_status_null_init(void);
+struct s_mlx_textures		game_textures_null_init(void);
+
 #endif

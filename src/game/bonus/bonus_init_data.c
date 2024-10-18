@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_data.c                                        :+:      :+:    :+:   */
+/*   bonus_init_data.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dosokin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 08:12:38 by dosokin           #+#    #+#             */
-/*   Updated: 2024/10/16 12:07:56 by dosokin          ###   ########.fr       */
+/*   Updated: 2024/10/18 14:34:14 by dosokin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,19 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-static struct s_game_logic init_game_logic(char **map)
+static struct s_game_logic	init_game_logic(char **map)
 {
-    struct s_game_logic game_logic;
+	struct s_game_logic	game_logic;
 
-    game_logic = game_logic_null_init();
+	game_logic = game_logic_null_init();
 	if (!map || !*map)
 		return (game_logic);
 	game_logic.player = get_element_coord(map, 'P', 1);
-    game_logic.enemy = coord_null_init();
+	game_logic.enemy = coord_null_init();
 	game_logic.remaining_collectibles = count_elements(map).collectibles;
-    game_logic.keys_status = key_status_null_init();
-    game_logic.status = DEFAULT;
-    return (game_logic);
+	game_logic.keys_status = key_status_null_init();
+	game_logic.status = DEFAULT;
+	return (game_logic);
 }
 
 static int	init_game_textures(struct s_mlx_data *mlx_data)
@@ -43,14 +43,14 @@ static int	init_game_textures(struct s_mlx_data *mlx_data)
 			return (error_manager(TEXTURES));
 		i++;
 	}
-    i = 0;
-    while (i < 10)
-    {
-        if (png_to_texture(get_num_texture_location(i, &(mlx_data->textures)),
-                           get_texture_path(i + 7)))
-            return (error_manager(TEXTURES));
-        i++;
-    }
+	i = 0;
+	while (i < 10)
+	{
+		if (png_to_texture(get_num_texture_location(i, &(mlx_data->textures)),
+				get_texture_path(i + 7)))
+			return (error_manager(TEXTURES));
+		i++;
+	}
 	return (NO_ERRORS);
 }
 
@@ -62,7 +62,8 @@ static int	init_game_images(struct s_mlx_data *mlx_data)
 	while (i < 7)
 	{
 		if (texture_to_img(get_game_image_location(i, &(mlx_data->images)),
-				*get_game_texture_location(i, &(mlx_data->textures)), mlx_data->mlx))
+				*get_game_texture_location(i, &(mlx_data->textures)),
+				mlx_data->mlx))
 			return (error_manager(TEXTURES));
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: dosokin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 16:59:16 by dosokin           #+#    #+#             */
-/*   Updated: 2024/10/16 12:20:15 by dosokin          ###   ########.fr       */
+/*   Updated: 2024/10/18 14:32:11 by dosokin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,23 @@
 
 enum						e_key_status
 {
-    RELEASED,
-    PRESSED,
+	RELEASED,
+	PRESSED,
 };
 
 enum						e_game_status
 {
-    DEFAULT,
-    WIN,
+	DEFAULT,
+	WIN,
 };
 
-enum                        e_img_type
+enum						e_img_type
 {
-    EXIT,
-    WALL,
-    EMPTY,
-    COLLECTIBLE,
-    PLAYER
+	EXIT,
+	WALL,
+	EMPTY,
+	COLLECTIBLE,
+	PLAYER
 };
 
 struct						s_elements_count
@@ -142,12 +142,12 @@ mlx_image_t					**get_image_location(size_t index,
 int							texture_to_img(mlx_image_t **buffer,
 								mlx_texture_t *texture, mlx_t *mlx);
 
-struct s_elements_count elements_count_null_init();
-struct s_coord	coord_null_init(void);
-struct s_game_logic game_logic_null_init();
-t_game_data game_data_null_init();
-struct s_mlx_textures game_textures_null_init();
-struct s_game_images game_images_null_init();
-struct s_keys_status key_status_null_init(void);
+struct s_elements_count		elements_count_null_init(void);
+struct s_coord				coord_null_init(void);
+struct s_game_logic			game_logic_null_init(void);
+t_game_data					game_data_null_init(void);
+struct s_mlx_textures		game_textures_null_init(void);
+struct s_game_images		game_images_null_init(void);
+struct s_keys_status		key_status_null_init(void);
 
 #endif

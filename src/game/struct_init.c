@@ -6,7 +6,7 @@
 /*   By: dosokin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 15:05:55 by dosokin           #+#    #+#             */
-/*   Updated: 2024/10/16 15:06:30 by dosokin          ###   ########.fr       */
+/*   Updated: 2024/10/18 14:32:58 by dosokin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,15 @@ struct s_coord	coord_null_init(void)
 	return (element_coord);
 }
 
-struct s_keys_status key_status_null_init(void)
+struct s_keys_status	key_status_null_init(void)
 {
-    struct s_keys_status keys_status;
+	struct s_keys_status	keys_status;
 
-    keys_status.down = RELEASED;
-    keys_status.up = RELEASED;
-    keys_status.left = RELEASED;
-    keys_status.right = RELEASED;
-    return (keys_status);
+	keys_status.down = RELEASED;
+	keys_status.up = RELEASED;
+	keys_status.left = RELEASED;
+	keys_status.right = RELEASED;
+	return (keys_status);
 }
 
 struct s_game_logic	game_logic_null_init(void)
@@ -51,6 +51,6 @@ struct s_game_logic	game_logic_null_init(void)
 	game_logic.player = coord_null_init();
 	game_logic.remaining_collectibles = 0;
 	game_logic.status = DEFAULT;
-    game_logic.keys_status = key_status_null_init();
+	game_logic.keys_status = key_status_null_init();
 	return (game_logic);
 }

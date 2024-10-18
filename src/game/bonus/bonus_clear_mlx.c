@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clear_mlx.c                                        :+:      :+:    :+:   */
+/*   bonus_clear_mlx.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dosokin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 08:12:51 by dosokin           #+#    #+#             */
-/*   Updated: 2024/10/16 08:12:53 by dosokin          ###   ########.fr       */
+/*   Updated: 2024/10/18 14:33:53 by dosokin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	delete_textures(struct s_mlx_textures *textures)
 			mlx_delete_texture(texture);
 		i++;
 	}
-    i = 0;
+	i = 0;
 	while (i < 10)
 	{
 		texture = *(get_num_texture_location(i, textures));
@@ -81,6 +81,7 @@ void	delete_textures(struct s_mlx_textures *textures)
 			mlx_delete_texture(texture);
 		i++;
 	}
+	*textures = game_textures_null_init();
 }
 
 void	delete_images(struct s_mlx_data mlx_data, mlx_t *mlx)
